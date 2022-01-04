@@ -3,7 +3,7 @@ class Api::V1::SubscriptionsController < ApplicationController
     subscription = Subscription.new(allowed_params)
 
     if subscription.save
-      render json: subscription, status: :created
+      render json: Api::V1::SubscriptionSerializer.new(subscription), status: :created
     else
       render json: { errors: subscription.errors.full_messages }, status: :bad_request
     end

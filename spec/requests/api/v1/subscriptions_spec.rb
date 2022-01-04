@@ -21,13 +21,10 @@ RSpec.describe '/api/v1/subscriptions' do
       it 'returns the created subscription' do
         post api_v1_subscriptions_path, params: params
 
-        expect(response_hash).to include(params)
-      end
-
-      it 'returns a default status' do
-        post api_v1_subscriptions_path, params: params
-
-        expect(response_hash).to include(status: "active")
+        expect(response_hash[:data][:id]).to be_a(String)
+        expect(response_hash[:data][:type]).to eq("subscription")
+        expect(response_hash[:data][:attributes]).to include(params)
+        expect(response_hash[:data][:attributes][:status]).to eq("active")
       end
 
       it 'returns a 201 response' do
