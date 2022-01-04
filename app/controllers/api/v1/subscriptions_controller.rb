@@ -9,6 +9,14 @@ class Api::V1::SubscriptionsController < ApplicationController
     end
   end
 
+  def update
+    subscription = Subscription.find(params[:id])
+    if subscription.update(status: params[:status])
+      render json: Api::V1::SubscriptionSerializer.new(subscription), status: :ok
+    else
+    end
+  end
+
   private
 
   def allowed_params

@@ -60,4 +60,19 @@ RSpec.describe '/api/v1/subscriptions' do
       end
     end
   end
+
+  describe 'PATCH to /:id' do
+    context 'when successful' do
+      let(:subscription) { create(:subscription) }
+      let(:params) do
+        { status: "cancelled" }
+      end
+
+      it 'can update a status to cancelled' do
+        patch api_v1_subscription_path(subscription), params: params
+
+        expect(response_hash[:data][:attributes][:status]).to eq("cancelled")
+      end
+    end
+  end
 end
