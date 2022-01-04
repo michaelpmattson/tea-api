@@ -25,5 +25,24 @@ RSpec.describe '/api/v1/subscriptions' do
         expect(response.status).to eq(200)
       end
     end
+
+    context 'when unsuccessful' do
+      let!(:subs) { create_list(:subscription, 5) }
+      let(:params) do
+        { customer_id: 0 }
+      end
+
+      it 'returns a useful error message' do
+        get api_v1_customers_subscriptions_path, params: params
+
+        expect(response_hash).to eq(error: "Couldn't find Customer with 'id'=0")
+      end
+
+      it 'returns a 404 response' do
+        get api_v1_customers_subscriptions_path, params: params
+
+        expect(response.status).to eq(404)
+      end
+    end
   end
 end
