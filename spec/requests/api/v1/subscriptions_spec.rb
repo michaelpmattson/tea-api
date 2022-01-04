@@ -101,7 +101,11 @@ RSpec.describe '/api/v1/subscriptions' do
         expect(response_hash).to eq(errors: ["Status must be 'active' or 'cancelled'"])
       end
 
-      it 'returns a 400 response'
+      it 'returns a 400 response' do
+        patch api_v1_subscription_path(subscription), params: params
+
+        expect(response.status).to eq(400)
+      end
     end
   end
 end
