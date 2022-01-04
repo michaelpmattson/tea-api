@@ -1,7 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Subscription, type: :model do
-  describe 'validations' do
+  describe 'relationships' do
     it { should belong_to(:customer) }
+  end
+
+  describe 'validations' do
+    it { should validate_inclusion_of(:status).
+      in_array(['active', 'cancelled']).
+      with_message("Status must be 'active' or 'cancelled'") }
   end
 end
