@@ -73,6 +73,33 @@ RSpec.describe '/api/v1/subscriptions' do
 
         expect(response_hash[:data][:attributes][:status]).to eq("cancelled")
       end
+
+      let(:active_subscription) { create(:subscription, status: "cancelled") }
+
+      it 'can update a status to active' do
+        patch api_v1_subscription_path(active_subscription), params: { status: "active"}
+
+        expect(response_hash[:data][:attributes][:status]).to eq("active")
+      end
+
+      it 'returns a 200 response' do
+        patch api_v1_subscription_path(subscription), params: params
+
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context 'when unsuccessful' do
+      let(:subscription) { create(:subscription) }
+      let(:params) do
+        { status: "mystery" }
+      end
+
+      it 'returns a useful error' do
+
+      end
+
+      it 'returns a 400 response'
     end
   end
 end
