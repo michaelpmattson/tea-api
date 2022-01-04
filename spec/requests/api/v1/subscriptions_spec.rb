@@ -37,6 +37,30 @@ RSpec.describe '/api/v1/subscriptions' do
       end
     end
 
-    context 'when unsuccessful'
+    context 'when unsuccessful' do
+      let(:params) do
+        {
+          title: 'My super great subscription',
+          frequency: 21,
+          customer_id: 12345
+        }
+      end
+
+      it 'returns an error' do
+        post api_v1_subscriptions_path, params: params
+
+        expect(response_hash).to eq(
+          {
+            errors: ['Customer must exist']
+          }
+        )
+      end
+
+      it 'returns a 400 response' do
+        post api_v1_subscriptions_path, params: params
+
+        expect(response.status).to eq(400)
+      end
+    end
   end
 end

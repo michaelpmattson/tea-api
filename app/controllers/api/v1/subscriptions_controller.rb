@@ -5,7 +5,7 @@ class Api::V1::SubscriptionsController < ApplicationController
     if subscription.save
       render json: subscription, status: :created
     else
-      
+      render json: { errors: subscription.errors.full_messages }, status: :bad_request
     end
   end
 
