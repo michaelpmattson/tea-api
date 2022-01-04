@@ -14,6 +14,7 @@ class Api::V1::SubscriptionsController < ApplicationController
     if subscription.update(status: params[:status])
       render json: Api::V1::SubscriptionSerializer.new(subscription), status: :ok
     else
+      render json: { errors: subscription.errors.full_messages }, status: :bad_request
     end
   end
 
