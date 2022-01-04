@@ -24,7 +24,9 @@ Eventual functionality will include:
 
 ### Schema
 
+The schema currently includes a one-to-many relationship between customers and subscriptions, with a planned many-to-many relationship connecting subscriptions to their included teas. Teas table may also be omitted in favor of using an external API.
 
+![Schema](https://user-images.githubusercontent.com/826189/148130379-733e4ba5-143e-4016-9776-46d2d9265672.png)
 
 ### Dependencies
 
@@ -37,6 +39,10 @@ Eventual functionality will include:
 
 1. `bundle install`
 2. `rails db:{create,migrate}`
+
+### Seed data
+
+`rails db:seed`
 
 ### Running the Specs
 `bundle exec rspec`
@@ -62,12 +68,23 @@ Note, customer must already exist.
 
 Example:
 
-` `
+`POST http://localhost:3000/api/v1/subscriptions?title='My super great subscription'&frequency=21&customer_id=3`
 
 Example response:
 
 ```
-
+{
+    "data": {
+        "id": "33",
+        "type": "subscription",
+        "attributes": {
+            "customer_id": 3,
+            "frequency": 21,
+            "status": "active",
+            "title": "'My super great subscription'"
+        }
+    }
+}
 ```
 
 #### PATCH subscription status
@@ -76,12 +93,27 @@ Example response:
 
 Required params:
 
-`status`: String (accepts 'active' or 'cancelled')
+`status`: Text (accepts 'active' or 'cancelled')
+
+Example:
+
+`http://localhost:3000/api/v1/subscriptions/33?status=cancelled`
 
 Example response:
 
 ```
-
+{
+    "data": {
+        "id": "33",
+        "type": "subscription",
+        "attributes": {
+            "customer_id": 3,
+            "frequency": 21,
+            "status": "cancelled",
+            "title": "'My super great subscription'"
+        }
+    }
+}
 ```
 
 #### GET all subscriptions for a customer:
@@ -96,19 +128,100 @@ Note, customer must already exist.
 
 Example:
 
-`GET /api/books/50/book_reviews`
-
-Try it on your own from the command line. Substitute ':id' with the book id you want to view. (Note: start up your local server and substitute localhost:3000 with whichever port you're running):
-
-`curl http://localhost:3000/api/books/:id/book_reviews`
+`GET /api/v1/customers/subscriptions?customer_id=3`
 
 Example response:
 
 ```
-
+{
+    "data": [
+        {
+            "id": "17",
+            "type": "subscription",
+            "attributes": {
+                "customer_id": 3,
+                "frequency": 11,
+                "status": "active",
+                "title": "Dolorum asperiores modi ut."
+            }
+        },
+        {
+            "id": "18",
+            "type": "subscription",
+            "attributes": {
+                "customer_id": 3,
+                "frequency": 79,
+                "status": "active",
+                "title": "Et id dolor deserunt."
+            }
+        },
+        {
+            "id": "19",
+            "type": "subscription",
+            "attributes": {
+                "customer_id": 3,
+                "frequency": 60,
+                "status": "active",
+                "title": "Tempora dolorem ut impedit."
+            }
+        },
+        {
+            "id": "20",
+            "type": "subscription",
+            "attributes": {
+                "customer_id": 3,
+                "frequency": 87,
+                "status": "active",
+                "title": "Unde fugit aut et."
+            }
+        },
+        {
+            "id": "21",
+            "type": "subscription",
+            "attributes": {
+                "customer_id": 3,
+                "frequency": 8,
+                "status": "cancelled",
+                "title": "Vitae quia repellendus corporis."
+            }
+        },
+        {
+            "id": "22",
+            "type": "subscription",
+            "attributes": {
+                "customer_id": 3,
+                "frequency": 67,
+                "status": "cancelled",
+                "title": "Omnis voluptas aperiam tempora."
+            }
+        },
+        {
+            "id": "23",
+            "type": "subscription",
+            "attributes": {
+                "customer_id": 3,
+                "frequency": 91,
+                "status": "cancelled",
+                "title": "Veritatis dolor reprehenderit est."
+            }
+        },
+        {
+            "id": "24",
+            "type": "subscription",
+            "attributes": {
+                "customer_id": 3,
+                "frequency": 8,
+                "status": "cancelled",
+                "title": "Corrupti eum est dolorum."
+            }
+        }
+    ]
+}
 ```
 
 
 
 ### Thanks
-Thanks very much for reading. I'm looking forward to hearing any questions!
+Thanks very much for reading. Feel free to contact me with questions!
+
+[@michaelpmattson](https://github.com/michaelpmattson)
